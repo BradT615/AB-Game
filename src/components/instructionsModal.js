@@ -17,12 +17,37 @@ function InstructionsModal({ isOpen, onClose }) {
               AB Game Instructions
             </h3>
             <div className="mt-3">
-              <ul className="list-disc list-outside text-lg space-y-2 pl-5">
-                <li>A player (the codebreaker) tries to guess the secret code of another player (the codemaker). The code is a sequence of 4 <b>unique</b> digits (from 0 to 9).</li>
-                <li>Each time the codebreaker makes a guess, the codemaker gives a hint in the form of "A"s and "B"s.</li>
-                <li>An "A" means that one digit is correct and in the right position.</li>
-                <li>A "B" means that one digit is correct but in the wrong position.</li>
-              </ul>
+            <ul className="list-disc list-outside text-lg space-y-2 pl-5">
+  <li>
+    A player (the codebreaker) tries to guess the secret code of another player (the codemaker).
+    The code is a sequence of 4 <b>unique</b> digits (from 0 to 9).
+  </li>
+  <li>
+    Each time the codebreaker makes a guess, the codemaker gives a hint in the form of "A"s and "B"s.
+  </li>
+  <li>An "A" means that one digit is correct and in the right position.</li>
+  <li>A "B" means that one digit is correct but in the wrong position.</li>
+  <li>
+    For example, suppose the secret code is "1234" and the codebreaker guesses "1357":
+    <ul className="list-disc list-outside pl-5">
+      <li>
+        The codemaker will give a hint of "1A0B" because:
+        <ul className="list-disc list-outside pl-5">
+          <li>"1" is correct and in the right position (1A)</li>
+          <li>None of the other digits are correct (0B)</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    The hint is always in the format "xAxB", where:
+    <ul className="list-disc list-outside pl-5">
+      <li>"x" represents the number of "A"s and "B"s</li>
+      <li>"A" represents the number of digits that are correct and in the right position</li>
+      <li>"B" represents the number of digits that are correct but in the wrong position</li>
+    </ul>
+  </li>
+</ul>
             </div>
           </div>
           <div className="px-4 py-3 sm:px-6 flex flex-row-reverse">
