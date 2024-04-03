@@ -11,8 +11,8 @@ function InstructionsModal({ isOpen, onClose }) {
       <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
         <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
         <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-        <div className="inline-block align-bottom bg-zinc-600 text-gray-200 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-xl sm:w-full">
-          <div className="bg-zinc-600 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+        <div className="inline-block align-bottom bg-zinc-700 bg-opacity-90 backdrop-blur-sm text-gray-200 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-xl sm:w-full">
+          <div className="px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
             <h3 className="text-2xl leading-6 font-medium text-gray-100" id="modal-title">
               AB Game Instructions
             </h3>
