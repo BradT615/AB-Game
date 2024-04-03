@@ -1,5 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
+import InstructionsModal from './instructionsModal';
 import { RiPauseMiniLine, RiPlayMiniFill } from "react-icons/ri";
+import { IoIosHelpCircleOutline } from "react-icons/io";
 
 function Game() {
   const [guess, setGuess] = useState(['', '', '', '']);
@@ -9,6 +11,7 @@ function Game() {
   const [timer, setTimer] = useState(0);
   const [isPaused, setIsPaused] = useState(true);
   const [firstGuessEntered, setFirstGuessEntered] = useState(false);
+  const [isModalOpen, setModalOpen] = useState(false);
 
   const inputRef0 = useRef();
   const inputRef1 = useRef();
@@ -135,9 +138,13 @@ function Game() {
 
   return (
     <div className='flex-grow flex flex-col lg:flex-row gap-2 max-h-[80vh] lg:max-h-[70vh] min-h-96 max-w-2xl lg:max-w-4xl w-full m-auto p-2'>
+      <InstructionsModal isOpen={isModalOpen} onClose={() => setModalOpen(false)} />
       <div className='flex flex-col justify-between p-2 sm:p-4 rounded-lg w-full bg-zinc-700 bg-opacity-90 backdrop-blur-sm'>
-        <div className='flex justify-between items-center text-lg sm:text-2xl font-semibold border-b-[1px] mb-4'>
-          <h1 className='text-left p-2'>AB Game</h1>
+        <div className='flex justify-between items-center font-semibold border-b-[1px] mb-4'>
+          <div className='flex items-center text-lg sm:text-2xl'>
+            <h1 className='text-left p-2'>AB Game</h1>
+            <button className='hover:text-zinc-50 text-2xl sm:mt-1' onClick={() => setModalOpen(true)}><IoIosHelpCircleOutline /></button>
+          </div>
           {firstGuessEntered && (
             <div className='flex items-center gap-2'>
               <h1 className='h-full no-select'>{isPaused ? formatTime(timer) : formatTime(timer)}</h1>
