@@ -65,12 +65,16 @@ function Game() {
 
   const handleGuessChange = (index, event) => {
     let newGuess = [...guess];
-    newGuess[index] = event.target.value;
-
-    setGuess(newGuess);
-
-    if (event.target.nextSibling) {
-      event.target.nextSibling.focus();
+    let input = event.target.value;
+  
+    // Check if the input is a number
+    if (!isNaN(input)) {
+      newGuess[index] = input;
+      setGuess(newGuess);
+  
+      if (event.target.nextSibling) {
+        event.target.nextSibling.focus();
+      }
     }
   };
 
@@ -114,7 +118,8 @@ function Game() {
       }
     }
   
-    setHints([...hints, `${aCount}A${bCount}B`]);
+    // Store the guess along with its hint
+    setHints([...hints, { guess: guess.join(''), hint: `${aCount}A${bCount}B` }]);
     setGuess(['', '', '', '']);
     inputRefs[0].current.focus();
   };
@@ -131,20 +136,20 @@ function Game() {
   };
 
   return (
-    <div className='flex-grow flex flex-col lg:flex-row gap-2 max-h-[80vh] lg:max-h-[70vh] max-w-4xl w-full m-auto p-4 text-gray-300'>
-      <div className='flex flex-col justify-between bg-zinc-600 p-4 rounded-lg w-full'>
+    <div className='flex-grow flex flex-col lg:flex-row gap-2 max-h-[80vh] lg:max-h-[70vh] max-w-4xl w-full m-auto p-4'>
+      <div className='flex flex-col justify-between p-4 rounded-lg w-full bg-zinc-700 bg-opacity-90 backdrop-blur-sm'>
         <div className='flex justify-between items-center text-2xl font-semibold  border-b-[1px] mb-4'>
           <h1 className='text-left p-2'>AB Game</h1>
           {firstGuessEntered && (
             <div className='flex items-center gap-2'>
               <h1 className='h-full no-select'>{isPaused ? formatTime(timer) : formatTime(timer)}</h1>
-              <button onClick={handlePause} className='mt-1 text-4xl rounded-lg hover:text-gray-200 border-[1px] border-transparent hover:border-gray-200'>
+              <button onClick={handlePause} className='mt-1 text-4xl rounded-lg hover:text-zinc-50 border-[1px] border-transparent hover:border-gray-200'>
                 {isPaused ? <RiPlayMiniFill /> : <RiPauseMiniLine />}
               </button>
             </div>
           )}
         </div>
-        <div className='h-2/3'>
+        <div className='h-1/2'>
           {guess.map((value, index) => (
             <input
               key={index}
@@ -154,29 +159,42 @@ function Game() {
               value={value}
               onChange={(event) => handleGuessChange(index, event)}
               onKeyDown={(event) => handleKeyDown(index, event)}
-              className='w-20 h-28 text-center text-7xl text-black border-2 border-gray-400 rounded-lg mx-1 focus:outline-none focus:border-accent'
+              className='w-20 h-28 text-center text-7xl  border-2 border-gray-400 bg-zinc-600 bg-opacity-30 rounded-lg mx-1 focus:outline-none focus:border-accent'
             />
           ))}
           <h1 className='text-lg'>Press Enter to Guess</h1>
         </div>
-          <div className='flex justify-end w-full items-center mb-4'>
-            <button className='border-2 border-gray-300 px-4 py-2 rounded-lg hover:bg-zinc-500 hover:border-gray-200 hover:text-gray-200 mr-2' onClick={handleReveal}>Reveal</button>
-            <button className='border-2 border-gray-300 px-4 py-2 rounded-lg hover:bg-zinc-500 hover:border-gray-200 hover:text-gray-200' onClick={handleNewGame}>New Game</button>
+          <div className='flex justify-between gap-4 w-full items-center mb-4'>
+            <button className='border-2 border-gray-300 w-1/2 py-2 rounded-lg hover:bg-zinc-500 hover:border-gray-200 hover:text-zinc-100' onClick={handleReveal}>Reveal</button>
+            <button className='border-2 border-gray-300 w-1/2 py-2 rounded-lg hover:bg-zinc-500 hover:border-gray-200 hover:text-zinc-100' onClick={handleNewGame}>New Game</button>
           </div>
       </div>
-      <div className='flex flex-col justify-between bg-zinc-600 p-4 rounded-lg w-full'>
+      <div className='flex flex-col justify-between p-4 rounded-lg w-full bg-zinc-700 bg-opacity-90 backdrop-blur-sm'>
         <h1 className='text-2xl font-semibold text-left p-2 border-b-[1px]'>
           Hints <span className='float-right'>Guess Count: {hints.length}</span>
         </h1>
-        <div className='text-xl text-left p-4 overflow-auto h-full'>
+        <div className='text-3xl text-left p-4 overflow-auto h-full'>
           {!isPaused && (
-            <div>
-              {hints.map((hint, index) => (
-                <p key={index}>{index + 1}. {hint}</p>
-              ))}
-            </div>
+            <table className='w-full text-center'>
+              <thead>
+                <tr>
+                  <th className='text-left'>#</th>
+                  <th className='w-1/2'>Guess</th>
+                  <th className='w-1/3'>Hint</th>
+                </tr>
+              </thead>
+              <tbody>
+                {hints.map((item, index) => (
+                  <tr key={index}>
+                    <td className='text-left'>{index + 1}</td>
+                    <td>{item.guess}</td>
+                    <td>{item.hint}</td>
+                  </tr>
+                ))}
+                <tr ref={hintsEndRef} />
+              </tbody>
+            </table>
           )}
-          <div ref={hintsEndRef} />
         </div>
       </div>
     </div>

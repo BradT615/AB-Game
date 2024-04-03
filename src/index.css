@@ -3,5 +3,9 @@
 @tailwind utilities;
 
 body {
-  background-color: #c1c1c1;
+    background-color: rgb(82 82 91);
+    background-image: url('assets/bg.svg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
 }
