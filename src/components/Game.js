@@ -110,13 +110,33 @@ function Game() {
   const handleGuessSubmit = () => {
     let aCount = 0;
     let bCount = 0;
+    let secretCodeCopy = [...secretCode]; // Create a copy of the secret code
+
+    if (guess.join('').length !== 4) {
+      return;
+    }
   
     for (let i = 0; i < secretCode.length; i++) {
       if (guess[i] === secretCode[i]) {
         aCount++;
-      } else if (secretCode.includes(guess[i])) {
-        bCount++;
+        // Remove the correctly guessed digit from the copy of the secret code
+        secretCodeCopy = secretCodeCopy.filter(digit => digit !== guess[i]);
       }
+    }
+  
+    for (let i = 0; i < secretCode.length; i++) {
+      if (guess[i] !== secretCode[i] && secretCodeCopy.includes(guess[i])) {
+        bCount++;
+        // Remove the guessed digit from the copy of the secret code
+        secretCodeCopy = secretCodeCopy.filter(digit => digit !== guess[i]);
+      }
+    }
+  
+    // If the user has guessed all digits correctly
+    if (aCount === 4) {
+      alert("Congratulations! You've guessed the number correctly.");
+      handleNewGame(); // Start a new game
+      return;
     }
   
     // Store the guess along with its hint
