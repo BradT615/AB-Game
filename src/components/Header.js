@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import InstructionsModal from '../components/instructionsModal';
 import Logo from '../assets/logo.png';
 import { GrGithub } from "react-icons/gr";
+import { IoIosHelpCircleOutline } from "react-icons/io";
 
 function Header() {
   const [isModalOpen, setModalOpen] = useState(false);
@@ -15,9 +16,7 @@ function Header() {
         <h1 className="hidden sm:block text-xl md:text-2xl font-semibold">AB Game</h1>
       </div>
       <div className='flex gap-3 items-center'>
-        <div className='border-2 border-gray-300 px-2 py-1 md:px-4 md:py-2 rounded-lg hover:bg-zinc-500 hover:border-gray-200 hover:text-gray-200'>
-          <button onClick={() => setModalOpen(true)}>Instructions</button>
-        </div>
+        <button className='text-3xl md:text-4xl hover:text-gray-200' onClick={() => setModalOpen(true)}><IoIosHelpCircleOutline /></button>
         <div className='transition hover:scale-105 hover:text-gray-200'>
           <a href="https://github.com/BradT615/AB-Game" target="_blank" rel="noopener noreferrer">
             <GrGithub className='w-10 h-10 md:w-12 md:h-12' />
