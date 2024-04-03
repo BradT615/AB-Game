@@ -12,6 +12,7 @@ function Game() {
   const [isPaused, setIsPaused] = useState(true);
   const [firstGuessEntered, setFirstGuessEntered] = useState(false);
   const [isModalOpen, setModalOpen] = useState(false);
+  const [gameWon, setGameWon] = useState(false);
 
   const inputRef0 = useRef();
   const inputRef1 = useRef();
@@ -54,17 +55,19 @@ function Game() {
   };
 
   const generateSecretCode = () => {
-    let code = '';
-    while (code.length < 4) {
-      let digit = Math.floor(Math.random() * 10);
-      if (!code.includes(digit)) {
-        code += digit;
-      }
-    }
+    let code = '1234';
+    // while (code.length < 4) {
+    //   let digit = Math.floor(Math.random() * 10);
+    //   if (!code.includes(digit)) {
+    //     code += digit;
+    //   }
+    // }
     setSecretCode(code);
   };
 
   const handleGuessChange = (index, event) => {
+    if (gameWon) return;
+  
     let newGuess = [...guess];
     let input = event.target.value;
   
@@ -80,6 +83,8 @@ function Game() {
   };
 
   const handleKeyDown = (index, event) => {
+    if (gameWon) return;
+
     if (event.key === "Backspace") {
       event.preventDefault();
       let newGuess = [...guess];
@@ -110,8 +115,8 @@ function Game() {
   const handleGuessSubmit = () => {
     let aCount = 0;
     let bCount = 0;
-    let secretCodeCopy = [...secretCode]; // Create a copy of the secret code
-
+    let secretCodeCopy = [...secretCode];
+  
     if (guess.join('').length !== 4) {
       return;
     }
@@ -119,7 +124,6 @@ function Game() {
     for (let i = 0; i < secretCode.length; i++) {
       if (guess[i] === secretCode[i]) {
         aCount++;
-        // Remove the correctly guessed digit from the copy of the secret code
         secretCodeCopy = secretCodeCopy.filter(digit => digit !== guess[i]);
       }
     }
@@ -127,23 +131,25 @@ function Game() {
     for (let i = 0; i < secretCode.length; i++) {
       if (guess[i] !== secretCode[i] && secretCodeCopy.includes(guess[i])) {
         bCount++;
-        // Remove the guessed digit from the copy of the secret code
         secretCodeCopy = secretCodeCopy.filter(digit => digit !== guess[i]);
       }
     }
   
-    // If the user has guessed all digits correctly
-    if (aCount === 4) {
-      alert("Congratulations! You've guessed the number correctly.");
-      handleNewGame(); // Start a new game
-      return;
-    }
-  
-    // Store the guess along with its hint
     setHints([...hints, { guess: guess.join(''), hint: `${aCount}A${bCount}B` }]);
-    setGuess(['', '', '', '']);
-    inputRefs[0].current.focus();
+  
+    if (aCount === 4) {
+      setIsPaused(true);
+      setGameWon(true);
+      inputRefs.forEach(ref => {
+        ref.current.classList.add('border-accent');
+      });
+      document.activeElement.blur();
+    } else {
+      setGuess(['', '', '', '']);
+      inputRefs[0].current.focus();
+    }
   };
+  
 
   const handleNewGame = () => {
     setGuess(['', '', '', '']);
@@ -199,27 +205,25 @@ function Game() {
           Hints <span className='float-right'>Guess Count: {hints.length}</span>
         </h1>
         <div className='text-xl sm:text-3xl text-left p-4 overflow-auto h-full'>
-          {!isPaused && (
-            <table className='w-full text-center'>
-              <thead>
-                <tr>
-                  <th className='text-left'>#</th>
-                  <th className='w-1/2'>Guess</th>
-                  <th className='w-1/3'>Hint</th>
+          <table className='w-full text-center'>
+            <thead>
+              <tr>
+                <th className='text-left'>#</th>
+                <th className='w-1/2'>Guess</th>
+                <th className='w-1/3'>Hint</th>
+              </tr>
+            </thead>
+            <tbody>
+              {hints.map((item, index) => (
+                <tr key={index}>
+                  <td className='text-left'>{index + 1}</td>
+                  <td>{item.guess}</td>
+                  <td>{item.hint}</td>
                 </tr>
-              </thead>
-              <tbody>
-                {hints.map((item, index) => (
-                  <tr key={index}>
-                    <td className='text-left'>{index + 1}</td>
-                    <td>{item.guess}</td>
-                    <td>{item.hint}</td>
-                  </tr>
-                ))}
-                <tr ref={hintsEndRef} />
-              </tbody>
-            </table>
-          )}
+              ))}
+              <tr ref={hintsEndRef} />
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
