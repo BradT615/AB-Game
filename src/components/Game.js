@@ -158,7 +158,7 @@ function Game() {
           {guess.map((value, index) => (
             <input
               key={index}
-              type="text"
+              type="tel"
               maxLength="1"
               ref={inputRefs[index]}
               value={value}
