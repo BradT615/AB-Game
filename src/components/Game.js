@@ -205,25 +205,27 @@ function Game() {
           Hints <span className='float-right'>Guess Count: {hints.length}</span>
         </h1>
         <div className='text-xl sm:text-3xl text-left p-4 overflow-auto h-full'>
-          <table className='w-full text-center'>
-            <thead>
-              <tr>
-                <th className='text-left'>#</th>
-                <th className='w-1/2'>Guess</th>
-                <th className='w-1/3'>Hint</th>
-              </tr>
-            </thead>
-            <tbody>
-              {hints.map((item, index) => (
-                <tr key={index}>
-                  <td className='text-left'>{index + 1}</td>
-                  <td>{item.guess}</td>
-                  <td>{item.hint}</td>
+          {!isPaused && (
+            <table className='w-full text-center'>
+              <thead>
+                <tr>
+                  <th className='text-left'>#</th>
+                  <th className='w-1/2'>Guess</th>
+                  <th className='w-1/3'>Hint</th>
                 </tr>
-              ))}
-              <tr ref={hintsEndRef} />
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {hints.map((item, index) => (
+                  <tr key={index}>
+                    <td className='text-left'>{index + 1}</td>
+                    <td>{item.guess}</td>
+                    <td>{item.hint}</td>
+                  </tr>
+                ))}
+                <tr ref={hintsEndRef} />
+              </tbody>
+            </table>
+          )}
         </div>
       </div>
     </div>
