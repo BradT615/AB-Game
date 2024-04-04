@@ -11,7 +11,7 @@ function Header() {
         <h1 className="hidden sm:block text-xl md:text-2xl font-semibold">AB Game</h1>
       </div>
       <div className='flex gap-3 items-center'>
-        <div className='transition hover:scale-105 hover:text-gray-200'>
+        <div className='transition hover:scale-105 hover:text-zinc-50'>
           <a href="https://github.com/BradT615/AB-Game" target="_blank" rel="noopener noreferrer">
             <GrGithub className='w-10 h-10 md:w-12 md:h-12' />
           </a>
