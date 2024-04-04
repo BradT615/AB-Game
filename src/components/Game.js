@@ -13,6 +13,8 @@ function Game() {
   const [firstGuessEntered, setFirstGuessEntered] = useState(false);
   const [isModalOpen, setModalOpen] = useState(false);
   const [gameWon, setGameWon] = useState(false);
+  const [emptyFields, setEmptyFields] = useState([false, false, false, false]);
+  const [borderColor, setBorderColor] = useState('border-gray-400');
 
   const inputRef0 = useRef();
   const inputRef1 = useRef();
@@ -76,6 +78,10 @@ function Game() {
       newGuess[index] = input;
       setGuess(newGuess);
   
+      let newEmptyFields = [...emptyFields];
+      newEmptyFields[index] = false;
+      setEmptyFields(newEmptyFields);
+  
       if (event.target.nextSibling) {
         event.target.nextSibling.focus();
       }
@@ -100,10 +106,6 @@ function Game() {
   
       setGuess(newGuess);
     } else if (event.key === "Enter") {
-      if (!firstGuessEntered) {
-        setFirstGuessEntered(true);
-        setIsPaused(false);
-      }
       handleGuessSubmit();
     } else {
       let newBackspaceCount = [...backspaceCount];
@@ -118,7 +120,15 @@ function Game() {
     let secretCodeCopy = [...secretCode];
   
     if (guess.join('').length !== 4) {
+      let newEmptyFields = guess.map(g => g === '');
+      setEmptyFields(newEmptyFields);
+      unfocusAll(); // Unfocus all input fields
       return;
+    }
+
+    if (!firstGuessEntered) {
+      setFirstGuessEntered(true);
+      setIsPaused(false);
     }
   
     for (let i = 0; i < secretCode.length; i++) {
@@ -140,9 +150,7 @@ function Game() {
     if (aCount === 4) {
       setIsPaused(true);
       setGameWon(true);
-      inputRefs.forEach(ref => {
-        ref.current.classList.add('border-accent');
-      });
+      setBorderColor('border-accent');
       document.activeElement.blur();
     } else {
       setGuess(['', '', '', '']);
@@ -150,22 +158,34 @@ function Game() {
     }
   };
   
+  const unfocusAll = () => {
+    inputRefs.forEach(ref => {
+      if (ref.current) {
+        ref.current.blur();
+      }
+    });
+  };
 
   const handleNewGame = () => {
     setGuess(['', '', '', '']);
     setHints([]);
+    setGameWon(false);
+    setBorderColor('border-gray-400');
     generateSecretCode();
     inputRefs[0].current.focus();
   };
 
   const handleReveal = () => {
     setGuess(secretCode.split(''));
+    setGameWon(true);
+    setEmptyFields([false, false, false, false]);
+    setBorderColor('border-accent');
   };
 
   return (
     <div className='flex-grow flex flex-col lg:flex-row gap-2 max-h-screen lg:max-h-[80vh] min-h-96 max-w-2xl lg:max-w-4xl w-full m-auto p-2 overflow-auto'>
       <InstructionsModal isOpen={isModalOpen} onClose={() => setModalOpen(false)} />
-      <div className='flex flex-col justify-between p-2 sm:p-4 rounded-lg w-full h-full bg-zinc-700 bg-opacity-90 backdrop-blur-sm'>
+      <div className='flex flex-col justify-between p-2 sm:p-4 rounded-lg w-full lg:h-full bg-zinc-700 bg-opacity-90 backdrop-blur-sm'>
         <div className='flex justify-between items-center font-semibold border-b-[1px] mb-4'>
           <div className='flex items-center text-lg sm:text-2xl'>
             <h1 className='text-left p-2'>AB Game</h1>
@@ -180,7 +200,7 @@ function Game() {
             </div>
           )}
         </div>
-        <div className='h-full lg:h-1/2'>
+        <div className='h-full lg:h-2/3'>
           {guess.map((value, index) => (
             <input
               key={index}
@@ -188,25 +208,33 @@ function Game() {
               maxLength="1"
               ref={inputRefs[index]}
               value={value}
+              disabled={gameWon}
               onChange={(event) => handleGuessChange(index, event)}
               onKeyDown={(event) => handleKeyDown(index, event)}
-              onFocus={() => setIsPaused(false)} // unpause the timer when the input field receives focus
-              className='w-12 h-18 sm:w-20 sm:h-28 text-center text-5xl sm:text-7xl border-2 border-gray-400 bg-zinc-600 bg-opacity-30 rounded-lg mx-1 focus:outline-none focus:border-accent'
+              onFocus={() => setIsPaused(false)}
+              className={`w-12 h-18 sm:w-20 sm:h-28 text-center text-5xl sm:text-7xl border-2 ${emptyFields[index] ? 'border-red-500' : borderColor} bg-zinc-600 bg-opacity-30 rounded-lg mx-1 focus:outline-none focus:border-accent`}
             />
           ))}
           <h1 className='hidden lg:block text-lg mt-2'>Press the <b className='border-b-[1px]'>Enter</b> key or <br/> <b className='border-b-[1px]'>Submit</b> button to Guess</h1>
+          <button 
+            className={`border-2 ${guess.join('').length == 4 && !gameWon ? 'border-accent' : 'border-gray-300'} w-2/3 mx-auto mt-2 lg:mt-8 py-1 sm:py-2 rounded-lg ${gameWon ? 'bg-zinc-700 border-gray-400 text-zinc-200' : 'hover:bg-zinc-500 hover:border-gray-200 hover:text-zinc-100'}`} 
+            onClick={handleGuessSubmit}
+            disabled={gameWon}
+          >
+            Submit
+          </button>
         </div>
-          <div className='flex justify-between gap-4 w-full items-center lg:mb-6 mt-2'>
-            <button className='border-2 border-gray-300 w-1/2 py-1 sm:py-2 rounded-lg hover:bg-zinc-500 hover:border-gray-200 hover:text-zinc-100' onClick={handleReveal}>Reveal</button>
-            <button className='border-2 border-gray-300 w-1/2 py-1 sm:py-2 rounded-lg hover:bg-zinc-500 hover:border-gray-200 hover:text-zinc-100' onClick={handleNewGame}>New Game</button>
-          </div>
+        <div className='flex justify-between gap-4 w-full items-center lg:mb-6 mt-2'>
+          <button className='border-2 border-gray-300 w-1/2 py-1 sm:py-2 rounded-lg hover:bg-zinc-500 hover:border-gray-200 hover:text-zinc-100' onClick={handleReveal}>Reveal</button>
+          <button className='border-2 border-gray-300 w-1/2 py-1 sm:py-2 rounded-lg hover:bg-zinc-500 hover:border-gray-200 hover:text-zinc-100' onClick={handleNewGame}>New Game</button>
+        </div>
       </div>
       <div className='flex flex-col justify-between p-2 sm:p-4 rounded-lg w-full h-full bg-zinc-700 bg-opacity-90 backdrop-blur-sm'>
         <h1 className='text-lg sm:text-2xl font-semibold text-left p-2 border-b-[1px]'>
           Hints <span className='float-right'>Guess Count: {hints.length}</span>
         </h1>
         <div className='text-xl sm:text-3xl text-left p-4 overflow-auto h-full max-h-[50vh] lg:max-h-full'>
-          {!isPaused && (
+          {!isPaused && firstGuessEntered && (
             <table className='w-full text-center'>
               <thead>
                 <tr>
