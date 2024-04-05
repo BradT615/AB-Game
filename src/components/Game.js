@@ -11,12 +11,21 @@ function Game() {
   const [isPaused, setIsPaused] = useState(true);
   const [firstGuessEntered, setFirstGuessEntered] = useState(false);
   const [isModalOpen, setModalOpen] = useState(false);
+  const [showInstructions, setShowInstructions] = useState(true);
   const [gameWon, setGameWon] = useState(false);
   const [emptyFields, setEmptyFields] = useState([false, false, false, false]);
   const [borderColor, setBorderColor] = useState('border-gray-400');
 
   const inputRefs = [useRef(), useRef(), useRef(), useRef()];
   const hintsEndRef = useRef(null);
+
+  useEffect(() => {
+    const hasShownInstructions = localStorage.getItem('hasShownInstructions');
+    if (!hasShownInstructions) {
+      setModalOpen(true);
+      localStorage.setItem('hasShownInstructions', 'true');
+    }
+  }, []);
 
   useEffect(() => {
     generateSecretCode();
@@ -49,13 +58,13 @@ function Game() {
   };
 
   const generateSecretCode = () => {
-    let code = '1234';
-    // while (code.length < 4) {
-    //   let digit = Math.floor(Math.random() * 10);
-    //   if (!code.includes(digit)) {
-    //     code += digit;
-    //   }
-    // }
+    let code = '';
+    while (code.length < 4) {
+      let digit = Math.floor(Math.random() * 10);
+      if (!code.includes(digit)) {
+        code += digit;
+      }
+    }
     setSecretCode(code);
   };
 
@@ -180,7 +189,7 @@ function Game() {
   };
 
   return (
-    <div className='flex-grow flex flex-col lg:flex-row gap-2 max-h-screen lg:max-h-[80vh] min-h-96 max-w-2xl lg:max-w-4xl w-full m-auto p-2 overflow-auto'>
+    <div className='flex-grow flex flex-col lg:flex-row gap-2 max-h-[100svh] lg:max-h-[80vh] min-h-96 max-w-2xl lg:max-w-4xl w-full m-auto p-2 overflow-auto'>
       <InstructionsModal isOpen={isModalOpen} onClose={() => setModalOpen(false)} />
       <div className='flex flex-col justify-between p-2 sm:p-4 rounded-lg w-full lg:h-full bg-zinc-700 bg-opacity-90 backdrop-blur-sm'>
         <div className='flex justify-between items-center text-lg sm:text-2xl font-semibold border-b-[1px] mb-4'>
