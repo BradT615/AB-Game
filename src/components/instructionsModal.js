@@ -17,41 +17,37 @@ function InstructionsModal({ isOpen, onClose }) {
               AB Game Instructions
             </h3>
             <div className="mt-3">
-            <ul className="list-disc list-outside text-lg space-y-2 pl-5">
-  <li>
-    A player (the codebreaker) tries to guess the secret code of another player (the codemaker).
-    The code is a sequence of 4 <b>unique</b> digits (from 0 to 9).
-  </li>
-  <li>
-    Each time the codebreaker makes a guess, the codemaker gives a hint in the form of "A"s and "B"s.
-  </li>
-  <li>An "A" means that one digit is correct and in the right position.</li>
-  <li>A "B" means that one digit is correct but in the wrong position.</li>
-  <li>
-    For example, suppose the secret code is "1234" and the codebreaker guesses "1357":
-    <ul className="list-disc list-outside pl-5">
-      <li>
-        The codemaker will give a hint of "1A0B" because:
-        <ul className="list-disc list-outside pl-5">
-          <li>"1" is correct and in the right position (1A)</li>
-          <li>None of the other digits are correct (0B)</li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-  <li>
-    The hint is always in the format "xAxB", where:
-    <ul className="list-disc list-outside pl-5">
-      <li>"x" represents the number of "A"s and "B"s</li>
-      <li>"A" represents the number of digits that are correct and in the right position</li>
-      <li>"B" represents the number of digits that are correct but in the wrong position</li>
-    </ul>
-  </li>
-</ul>
+              <p className="text-lg">
+                The AB Game is a code-breaking game where the codebreaker tries to guess the codemaker's secret code.
+              </p>
+              <ul className="list-disc list-outside text-lg space-y-2 pl-5 mt-2">
+                <li>The secret code is a sequence of 4 unique digits (0-9).</li>
+                <li>
+                  After each guess, the codemaker provides a hint:
+                  <ul className="list-disc list-outside pl-5 mt-1">
+                    <li>"A" indicates a correct digit in the correct position.</li>
+                    <li>"B" indicates a correct digit in the wrong position.</li>
+                  </ul>
+                </li>
+                <li>
+                  The hint format is "<span className="text-red-400">x</span>A<span className="text-blue-400">y</span>B", where:
+                  <ul className="list-disc list-outside pl-5 mt-1">
+                    <li>"<span className="text-red-400">x</span>" is the number of correct digits in the correct position (A).</li>
+                    <li>"<span className="text-blue-400">y</span>" is the number of correct digits in the wrong position (B).</li>
+                  </ul>
+                </li>
+              </ul>
+              <p className="text-lg mt-2">
+                For example, if the secret code is "<span className="text-green-400">1234</span>" and the guess is "<span className="text-red-400">1</span><span className="text-blue-400">32</span>7", the hint would be "<span className="text-red-500">1</span>A<span className="text-blue-500">2</span>B".
+              </p>
             </div>
           </div>
           <div className="px-4 py-3 sm:px-6 flex flex-row-reverse">
-            <button type="button" className='border-2 border-gray-300 px-4 py-2 rounded-lg hover:bg-zinc-500 hover:border-gray-200 hover:text-gray-200' onClick={onClose}>
+            <button
+              type="button"
+              className="border-2 border-gray-300 px-4 py-2 rounded-lg hover:bg-zinc-500 hover:border-gray-200 hover:text-gray-200"
+              onClick={onClose}
+            >
               Close
             </button>
           </div>
