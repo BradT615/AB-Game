@@ -42,10 +42,20 @@ function InstructionsModal({ isOpen, onClose }) {
               </p>
             </div>
           </div>
-          <div className="px-4 py-3 sm:px-6 flex flex-row-reverse">
+          <div className="px-4 py-3 sm:px-6 flex justify-between">
             <button
               type="button"
-              className="border-2 border-gray-300 px-4 py-2 rounded-lg hover:bg-zinc-500 hover:border-gray-200 hover:text-gray-200"
+              className="border-2 border-red-300 px-4 py-2 rounded-lg hover:border-red-400 text-red-300 hover:text-red-400"
+              onClick={() => {
+                localStorage.setItem('hasShownInstructions', 'true');
+                onClose();
+              }}
+            >
+              Don't show again
+            </button>
+            <button
+              type="button"
+              className="border-2 border-gray-300 px-4 py-2 rounded-lg hover:border-gray-100 hover:text-zinc-100"
               onClick={onClose}
             >
               Close
