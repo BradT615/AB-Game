@@ -23,13 +23,15 @@ function Game() {
     if (!hasShownInstructions) {
       setModalOpen(true);
     }
-  }, []);
-
-
-  useEffect(() => {
     generateSecretCode();
     inputRefs[0].current.focus();
   }, []);
+
+  useEffect(() => {
+    if (!isModalOpen) {
+      inputRefs[0].current.focus();
+    }
+  }, [isModalOpen]);
 
   useEffect(() => {
     if (hintsEndRef.current) {
@@ -57,13 +59,13 @@ function Game() {
   };
 
   const generateSecretCode = () => {
-    let code = '';
-    while (code.length < 4) {
-      let digit = Math.floor(Math.random() * 10);
-      if (!code.includes(digit)) {
-        code += digit;
-      }
-    }
+    let code = '1234';
+    // while (code.length < 4) {
+    //   let digit = Math.floor(Math.random() * 10);
+    //   if (!code.includes(digit)) {
+    //     code += digit;
+    //   }
+    // }
     setSecretCode(code);
   };
 
@@ -115,18 +117,28 @@ function Game() {
 
   const checkCows = (guess, secretCode) => {
     const secretCodeCopy = [...secretCode];
-    return guess.filter((digit, index) => {
-      if (digit === secretCode[index]) {
+    const guessCopy = [...guess];
+  
+    // Remove bulls from both secretCodeCopy and guessCopy
+    secretCodeCopy.forEach((digit, index) => {
+      if (digit === guessCopy[index]) {
         secretCodeCopy[index] = null;
-        return false;
+        guessCopy[index] = null;
       }
-      const cowIndex = secretCodeCopy.indexOf(digit);
-      if (cowIndex !== -1) {
-        secretCodeCopy[cowIndex] = null;
-        return true;
+    });
+  
+    let cowCount = 0;
+    guessCopy.forEach((digit, index) => {
+      if (digit !== null) {
+        const cowIndex = secretCodeCopy.indexOf(digit);
+        if (cowIndex !== -1) {
+          secretCodeCopy[cowIndex] = null;
+          cowCount++;
+        }
       }
-      return false;
-    }).length;
+    });
+  
+    return cowCount;
   };
 
   const handleGuessSubmit = () => {
@@ -197,7 +209,7 @@ function Game() {
     setGameWon(true);
     setEmptyFields([false, false, false, false]);
     setFirstGuessEntered(false);
-    setTimer(0);
+    // setTimer(0);
     setBorderColor('border-accent');
   };
 
@@ -255,7 +267,7 @@ function Game() {
           Hints <span className='float-right'>Guess Count: {hints.length}</span>
         </h1>
         <div className='text-xl sm:text-3xl text-left p-4 overflow-auto h-full max-h-[50vh] lg:max-h-full'>
-          {firstGuessEntered && (
+          {(firstGuessEntered && !isPaused) || gameWon ? (
             <table className='w-full text-center'>
               <thead>
                 <tr>
@@ -275,7 +287,7 @@ function Game() {
                 <tr ref={hintsEndRef} />
               </tbody>
             </table>
-          )}
+          ) : null}
         </div>
       </div>
     </div>
