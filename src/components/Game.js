@@ -171,6 +171,8 @@ function Game() {
     setHints([]);
     setGameWon(false);
     setEmptyFields([false, false, false, false]);
+    setFirstGuessEntered(false);
+    setTimer(0);
     setBorderColor('border-gray-400');
     generateSecretCode();
     inputRefs[0].current.focus();
@@ -180,6 +182,8 @@ function Game() {
     setGuess(secretCode.split(''));
     setGameWon(true);
     setEmptyFields([false, false, false, false]);
+    setFirstGuessEntered(false);
+    setTimer(0);
     setBorderColor('border-accent');
   };
 
