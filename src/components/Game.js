@@ -154,8 +154,22 @@ function Game() {
       document.activeElement.blur();
     } else {
       setGuess(['', '', '', '']);
-      inputRefs[0].current.focus();
+      if (!isUsingOnScreenKeyboard()) {
+        inputRefs[0].current.focus();
+      }
+      else unfocusAll();
     }
+  };
+
+  const isUsingOnScreenKeyboard = () => {
+    const userAgent = navigator.userAgent.toLowerCase();
+    return (
+      userAgent.includes('android') ||
+      userAgent.includes('iphone') ||
+      userAgent.includes('ipad') ||
+      userAgent.includes('ipod') ||
+      userAgent.includes('windows phone')
+    );
   };
 
   const unfocusAll = () => {
