@@ -59,13 +59,13 @@ function Game() {
   };
 
   const generateSecretCode = () => {
-    let code = '';
-    while (code.length < 4) {
-      let digit = Math.floor(Math.random() * 10);
-      if (!code.includes(digit)) {
-        code += digit;
-      }
-    }
+    let code = '1234';
+    // while (code.length < 4) {
+    //   let digit = Math.floor(Math.random() * 10);
+    //   if (!code.includes(digit)) {
+    //     code += digit;
+    //   }
+    // }
     setSecretCode(code);
   };
 
@@ -284,6 +284,11 @@ function Game() {
                     <td>{item.hint}</td>
                   </tr>
                 ))}
+                {gameWon && (
+                  <tr>
+                    <td colSpan="3" className="text-accent font-semibold">Congratulations! You won the game!</td>
+                  </tr>
+                )}
                 <tr ref={hintsEndRef} />
               </tbody>
             </table>
