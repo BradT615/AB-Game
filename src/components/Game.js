@@ -59,13 +59,13 @@ function Game() {
   };
 
   const generateSecretCode = () => {
-    let code = '1234';
-    // while (code.length < 4) {
-    //   let digit = Math.floor(Math.random() * 10);
-    //   if (!code.includes(digit)) {
-    //     code += digit;
-    //   }
-    // }
+    let code = '';
+    while (code.length < 4) {
+      let digit = Math.floor(Math.random() * 10);
+      if (!code.includes(digit)) {
+        code += digit;
+      }
+    }
     setSecretCode(code);
   };
 
