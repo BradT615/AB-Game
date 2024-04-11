@@ -1,70 +1,66 @@
-# Getting Started with Create React App
+# AB Game
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+AB Game is a fun and challenging game where the player tries to guess a secret 4-digit code. The game provides hints for each guess, indicating the number of correct digits in the correct position (A) and the number of correct digits in the wrong position (B).
 
-## Available Scripts
+## How to Play
 
-In the project directory, you can run:
+1. The game generates a random 4-digit secret code.
+2. Enter your guess by typing the digits in the input fields.
+3. Press the "Enter" key or click the "Submit" button to submit your guess.
+4. The game will provide a hint for your guess, showing the number of correct digits in the correct position (A) and the number of correct digits in the wrong position (B).
+5. Keep guessing until you crack the secret code or click the "Reveal" button to see the code.
+6. If you guessed the code correctly, congratulations! You won the game!
+7. Click the "New Game" button to start a new game.
 
-### `npm start`
+## Features
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- Responsive design that works on both desktop and mobile devices.
+- Timer to track the duration of each game session.
+- Pause and resume functionality to allow the player to take breaks.
+- Hint system that provides feedback on each guess.
+- Ability to reveal the secret code if the player is stuck.
+- Instructions modal to help new players understand the game rules.
+- Keyboard navigation support for entering guesses.
+- Automatic scrolling of the hints section to keep the latest hints in view.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Technologies Used
 
-### `npm test`
+- React: JavaScript library for building the user interface.
+- Tailwind CSS: Utility-first CSS framework for styling the components.
+- React Icons: Library for adding icons to the game.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Installation
 
-### `npm run build`
+1. Clone the repository:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```
+git clone https://github.com/your-username/ab-game.git
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+2. Navigate to the project directory:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```
+cd ab-game
+```
 
-### `npm run eject`
+3. Install the dependencies:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```
+npm install
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+4. Start the development server:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```
+npm start
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+5. Open the game in your browser at `http://localhost:3000`.
 
-## Learn More
+## Credits
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+The AB Game was developed by Bradley Titus and inspired by the classic game of Bulls and Cows.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## License
 
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+This project is licensed under the [MIT License](LICENSE).
