@@ -118,15 +118,14 @@ function Game() {
   const checkCows = (guess, secretCode) => {
     const secretCodeCopy = [...secretCode];
     const guessCopy = [...guess];
-  
-    // Remove bulls from both secretCodeCopy and guessCopy
+
     secretCodeCopy.forEach((digit, index) => {
       if (digit === guessCopy[index]) {
         secretCodeCopy[index] = null;
         guessCopy[index] = null;
       }
     });
-  
+
     let cowCount = 0;
     guessCopy.forEach((digit, index) => {
       if (digit !== null) {
@@ -137,7 +136,7 @@ function Game() {
         }
       }
     });
-  
+
     return cowCount;
   };
 
@@ -168,8 +167,9 @@ function Game() {
       setGuess(['', '', '', '']);
       if (!isUsingOnScreenKeyboard()) {
         inputRefs[0].current.focus();
+      } else {
+        unfocusAll();
       }
-      else unfocusAll();
     }
   };
 
@@ -209,14 +209,13 @@ function Game() {
     setGameWon(true);
     setEmptyFields([false, false, false, false]);
     setFirstGuessEntered(false);
-    // setTimer(0);
     setBorderColor('border-accent');
   };
 
   return (
-    <div className='flex-grow flex flex-col lg:flex-row gap-2 max-h-screen lg:max-h-[80vh] min-h-96 max-w-2xl lg:max-w-4xl w-full m-auto p-2 overflow-auto'>
+    <div className='flex-grow flex flex-col lg:flex-row gap-2 max-h-screen lg:max-h-[80vh] min-h-96 max-w-2xl lg:max-w-4xl w-full m-auto p-4 overflow-auto'>
       <InstructionsModal isOpen={isModalOpen} onClose={() => setModalOpen(false)} />
-      <div className='flex flex-col justify-between p-2 sm:p-4 rounded-lg w-full lg:h-full bg-zinc-700 bg-opacity-90 backdrop-blur-sm'>
+      <div className='flex flex-col justify-between p-2 sm:p-4 rounded-lg shadow-lg w-full lg:h-full bg-zinc-700 bg-opacity-90 backdrop-blur-sm'>
         <div className='flex justify-between items-center text-lg sm:text-2xl font-semibold border-b-[1px] mb-4'>
           <div className='flex items-center'>
             <h1 className='text-left p-2'>AB Game</h1>
@@ -250,7 +249,7 @@ function Game() {
           ))}
           <h1 className='hidden lg:block text-lg mt-2'>Press the <b className='border-b-[1px]'>Enter</b> key or <br/> <b className='border-b-[1px]'>Submit</b> button to Guess</h1>
           <button
-            className={`border-2 ${guess.join('').length == 4 && !gameWon ? 'border-accent' : 'border-gray-300'} w-2/3 mx-auto mt-2 lg:mt-8 py-1 sm:py-2 rounded-lg ${gameWon ? 'bg-zinc-700 border-gray-400 text-zinc-200' : 'hover:bg-zinc-500 hover:border-gray-200 hover:text-zinc-100'}`}
+            className={`border-2 ${guess.join('').length === 4 && !gameWon ? 'border-accent' : 'border-gray-300'} w-2/3 mx-auto mt-2 lg:mt-8 py-1 sm:py-2 rounded-lg ${gameWon ? 'bg-zinc-700 border-gray-400 text-zinc-200' : 'hover:bg-zinc-500 hover:border-gray-200 hover:text-zinc-100'}`}
             onClick={handleGuessSubmit}
             disabled={gameWon}
           >
@@ -262,7 +261,7 @@ function Game() {
           <button className={`border-2 ${gameWon ? 'border-accent hover:bg-zinc-500 hover:border-accent hover:text-zinc-100' : 'border-gray-300 hover:bg-zinc-500 hover:border-gray-200 hover:text-zinc-100'} w-1/2 py-1 sm:py-2 rounded-lg`} onClick={handleNewGame}>New Game</button>
         </div>
       </div>
-      <div className='flex flex-col justify-between p-2 sm:p-4 rounded-lg w-full h-full bg-zinc-700 bg-opacity-90 backdrop-blur-sm'>
+      <div className='flex flex-col justify-between p-2 sm:p-4 rounded-lg shadow-lg w-full h-full bg-zinc-700 bg-opacity-90 backdrop-blur-sm'>
         <h1 className='text-lg sm:text-2xl font-semibold text-left p-2 border-b-[1px]'>
           Hints <span className='float-right'>Guess Count: {hints.length}</span>
         </h1>
