@@ -213,7 +213,7 @@ function Game() {
   };
 
   return (
-    <div className='flex-grow flex flex-col lg:flex-row gap-2 max-h-screen lg:max-h-[80vh] min-h-96 max-w-2xl lg:max-w-4xl w-full m-auto p-4 overflow-auto'>
+    <div className='flex-grow flex flex-col lg:flex-row gap-2 text-center max-h-screen lg:max-h-[80vh] min-h-96 max-w-2xl lg:max-w-4xl w-full m-auto p-4 overflow-auto'>
       <InstructionsModal isOpen={isModalOpen} onClose={() => setModalOpen(false)} />
       <div className='flex flex-col justify-between p-2 sm:p-4 rounded-lg shadow-lg w-full lg:h-full bg-zinc-700 bg-opacity-90 backdrop-blur-sm'>
         <div className='flex justify-between items-center text-lg sm:text-2xl font-semibold border-b-[1px] mb-4'>
